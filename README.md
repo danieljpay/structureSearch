@@ -13,4 +13,4 @@ Proyecto de Búsqueda y recuperación de información web.
 
 ## Licencia 📄
 
-Este proyecto tiene licencia MIT - Mira el archivo [LICENSE.md](https://github.com/plupyt/wikiArticle-Finder/blob/main/LICENSE) para más detalles.
+Este proyecto tiene licencia MIT - Mira el archivo [LICENSE.md](https://github.com/plupyt/BRIW-proy/blob/main/LICENSE) para más detalles.
