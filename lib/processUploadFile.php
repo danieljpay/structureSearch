@@ -7,23 +7,19 @@
         $fileContent .= fgets($file);
     }
     
-    // insertFile($fileContent);
+     //insertFile($fileContent);
 
     // echo getDocContent(4);
-
-
+    
     //var_dump( newKeyword("Palabra prueba",3,5,"3,5,7,11"));
 
-    newFile(6,$fileContent);
-    
-    
+    //newFile(9,$fileContent);
+    downloadDocument(4);
     //------------------------------------- FUNCIONES QUE SIRVEN
 
     function newFile ($ID,$content) {
-        
         $keywords = readKeywords($content);
         $uniqueKeywords = array_unique($keywords);
-
         if (insertFile($ID,$content)) {
             uploadAllWords ($uniqueKeywords,$ID);
         }
