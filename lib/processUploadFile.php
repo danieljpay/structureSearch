@@ -13,16 +13,10 @@
     
     //var_dump( newKeyword("Palabra prueba",3,5,"3,5,7,11"));
 
-<<<<<<< HEAD
-    newFile(3,$fileContent);
-    
-    
-=======
-    //newFile(9,$fileContent);
-    downloadDocument(6);
-    downloadDocument(8);
+    //newFile(3,$fileContent);
+    downloadDocument(1);
+    downloadDocument(4);
 
->>>>>>> 2d23c5d1653ab318bba14d49bed38632428917a2
     //------------------------------------- FUNCIONES QUE SIRVEN
     
     //CAMBIAR A ID AUTOINCREMENTABLE

@@ -160,23 +160,4 @@ function downloadDocument($id_document)
     } else {
         echo "Documento no encontrado en DB";
     }
-
-<<<<<<< HEAD
-    function newKeyword ($keyword, $documentID, $frequency, $positions) {
-        
-        $query = "INSERT INTO keyword_post (Keyword,Document_ID,Frequency,Positions) VALUES ('" . 
-            $keyword . "','" . 
-            $documentID . "','" . 
-            $frequency . "','" . 
-            $positions .
-            "');";
-        $done = updateDB($query);
-        
-        if ($done) {
-            uploadKeyword($keyword);
-        }
-=======
->>>>>>> 2d23c5d1653ab318bba14d49bed38632428917a2
-
-
 }
