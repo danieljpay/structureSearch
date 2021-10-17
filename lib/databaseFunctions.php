@@ -114,12 +114,23 @@ function newKeyword($keyword, $documentID, $frequency, $positions)
     return $done;
 }
 
-function createDocumentTxt($id_document){
+function validationDocumentTxt($id_document)
+{
     $fileName = "document_$id_document.txt";
     $dataFile = getDocContent($id_document);
-    if ($dataFile ==  "404 NOT FOUND :(") {
-        echo "ERROR - ARCHIVO NO ENCONTRADO";
-    } else {
+    $boolean = false;
+    if ($dataFile != "404 NOT FOUND :(") {
+        $boolean = true;
+    }
+    
+    return $boolean;
+}
+
+function createDocumentTxt($id_document)
+{
+    $fileName = "document_$id_document.txt";
+    $dataFile = getDocContent($id_document);
+    if ($dataFile !=  "404 NOT FOUND :(") {
         file_put_contents("documents/" . $fileName, $dataFile);
     }
 }
@@ -127,23 +138,29 @@ function createDocumentTxt($id_document){
 function getFilesDocuments($id_document)
 {
     $files = scandir("documents/");
-    if (in_array("document_$id_document.txt", $files)) {
-    } else {
-       createDocumentTxt($id_document);
+    if (!in_array("document_$id_document.txt", $files)) {
+        createDocumentTxt($id_document);
     }
+
     return $files;
 }
 
 function downloadDocument($id_document)
 {
-    getFilesDocuments($id_document); //Lo llamo antes en caso de que no me haya creado el archivo para descargarlo.
-    $files = getFilesDocuments($id_document);
-
-    for ($i = 2; $i < count($files); $i++) {
-        if ($files[$i] == "document_$id_document.txt") {
-?>
-            <a download="<?php echo $files[$i] ?>" href="documents/<?php echo $files[$i] ?>"><?php echo $files[$i] ?></a>
-<?php
+    if (validationDocumentTxt($id_document)) {
+        getFilesDocuments($id_document); //En caso de que necesite crear documento.
+        $files = getFilesDocuments($id_document);
+        for ($i = 2; $i < count($files); $i++) {
+            if ($files[$i] == "document_$id_document.txt") {
+            ?>
+                <a download="<?php echo $files[$i] ?>" href="documents/<?php echo $files[$i] ?>"><?php echo $files[$i] . "<br>" ?></a>
+            <?php
+            }
         }
+    } else {
+        echo "Documento no encontrado en DB";
     }
+
+
+
 }

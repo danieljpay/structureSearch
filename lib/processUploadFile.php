@@ -14,7 +14,9 @@
     //var_dump( newKeyword("Palabra prueba",3,5,"3,5,7,11"));
 
     //newFile(9,$fileContent);
-    downloadDocument(4);
+    downloadDocument(6);
+    downloadDocument(8);
+
     //------------------------------------- FUNCIONES QUE SIRVEN
 
     function newFile ($ID,$content) {
