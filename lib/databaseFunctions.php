@@ -94,7 +94,6 @@
             $frequency . "','" . 
             $positions .
             "');";
-        var_dump($query);
         $done = updateDB($query);
         
         if ($done) {

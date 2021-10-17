@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-10-2021 a las 07:31:18
+-- Tiempo de generación: 17-10-2021 a las 23:08:14
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.10
 
@@ -24,6 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `dictionary`
+--
+
+CREATE TABLE `dictionary` (
+  `Keyword` varchar(20) NOT NULL COMMENT 'La keyword',
+  `Keyword_Appearances` int(5) NOT NULL COMMENT 'Número de documentos en los que aparece la keyword'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Diccionario de documentos';
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `keyword_post`
+--
+
+CREATE TABLE `keyword_post` (
+  `Keyword` varchar(50) NOT NULL COMMENT 'Una keyword',
+  `Document_ID` int(5) NOT NULL COMMENT 'El ID de undocumento',
+  `Frequency` int(5) NOT NULL COMMENT 'La frecuencia de la keyword en el documento',
+  `Positions` varchar(1000) NOT NULL COMMENT 'Las posiciones de la keyword en el documento'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla de relación entre palabras clave y documentos';
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `posting`
 --
 
@@ -35,6 +59,18 @@ CREATE TABLE `posting` (
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `dictionary`
+--
+ALTER TABLE `dictionary`
+  ADD PRIMARY KEY (`Keyword`);
+
+--
+-- Indices de la tabla `keyword_post`
+--
+ALTER TABLE `keyword_post`
+  ADD PRIMARY KEY (`Keyword`,`Document_ID`);
 
 --
 -- Indices de la tabla `posting`

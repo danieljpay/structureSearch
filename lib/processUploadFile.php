@@ -14,11 +14,12 @@
 
     //var_dump( newKeyword("Palabra prueba",3,5,"3,5,7,11"));
 
-    newFile(6,$fileContent);
+    newFile(3,$fileContent);
     
     
     //------------------------------------- FUNCIONES QUE SIRVEN
-
+    
+    //CAMBIAR A ID AUTOINCREMENTABLE
     function newFile ($ID,$content) {
         
         $keywords = readKeywords($content);
