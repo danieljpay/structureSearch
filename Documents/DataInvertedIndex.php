@@ -14,7 +14,7 @@ class OcurrencesCollection
                     }
                 }
                 if(sizeof($positionTerms)!=0){
-                    $dataRowDocuments[] = $indexDocument;
+                    $dataRowDocuments[] = $document->id;
                     $dataRowTerms[] = $positionTerms;
                 }
             }

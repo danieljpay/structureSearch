@@ -10,12 +10,10 @@ class Corpus
 
     public function getTerms(){
         $vocabulary = array();
-        $indexVocabulary = 0;
-        foreach($this->documents as $index => $document){
+        foreach($this->documents as $document){
             foreach($document->terms as $term){
                 if(!($this->isInVocabulary($vocabulary, $term))){
-                    $vocabulary[$indexVocabulary] = $term;
-                    $indexVocabulary++;
+                    $vocabulary[] = $term;
                 }
             }
         }
