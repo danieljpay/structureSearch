@@ -1,5 +1,5 @@
 <?php
-function getDocs(){
+function getDocsId(){
     $documents = array();
     $documents[] = 1;//"the best Italian restaurant enjoy the best pasta"; 
     $documents[] = 2;//"American restaurant enjoy the best hamburger";
