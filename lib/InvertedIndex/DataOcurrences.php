@@ -12,6 +12,22 @@ class DataOcurrences
         $this->indexTerms = $indexTerms;
     }
 
+    public function DTOrow1(){
+        $array = array();
+        $array[] = $this->indexDocuments[0];
+        $array[] = count($this->indexTerms[0]);
+        $list = "";
+        foreach($this->indexTerms[0] as $count => $position){
+            if($count == (count($this->indexTerms[0])-1)){
+                $list .= $position;
+            }else{
+                $list .= $position . ",";
+            }
+        }
+        $array[] = $list;
+        return $array;
+    }
+
     public function toStringData()
     {
         echo "Nueva row-----------------------";
