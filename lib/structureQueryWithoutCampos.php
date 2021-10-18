@@ -1,9 +1,9 @@
 <?php
     function structureQueryWithoutCampos($words) {
-        $categoriasBusqueda = ["ProductName", "QuantityPerUnit", "CategoryID"];
-        $tableToSearch = "products";
+        $categoriasBusqueda = ["Keyword", "Document_ID", "Frecuency","Positions"];
+        $tableToSearch = "keyword_post";
         for ($i=0; $i < count($categoriasBusqueda); $i++) {
-            $query = "SELECT " . "products.ProductName, products.QuantityPerUnit, products.CategoryID" . " FROM " . $tableToSearch . " WHERE ";
+            $query = "SELECT " . "keyword_post.Keyword, keyword_post.Document_ID, keyword_post.Frequency, keyword_post.Positions" . " FROM " . $tableToSearch . " WHERE ";
             for ($j=0; $j < count($words); $j++) { 
                 switch ($words[$j]) {
                     case "AND":
@@ -45,7 +45,9 @@
                         break;
                 }
             }
-            $results = executeQuery($query);
+
+            echo $query;
+            $results = executeQuery($query,$categoriasBusqueda);
             printResults($results);
         }
     }
