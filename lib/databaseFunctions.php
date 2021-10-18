@@ -104,7 +104,7 @@ function newKeyword($keyword, $documentID, $frequency, $positions)
         $frequency . "','" .
         $positions .
         "');";
-    var_dump($query);
+    //var_dump($query);
     $done = updateDB($query);
 
     if ($done) {
