@@ -17,7 +17,7 @@ function executeQuery($query)
 {
     $connection = connectDB();
     $queryResults = mysqli_query($connection, $query);
-
+    echo "<br>";
     if ($queryResults) {
         $arrayResults = readQueryResults($queryResults);
     } else {
@@ -31,8 +31,8 @@ function executeQuery($query)
 function readQueryResults($results)
 {
     $arrayResults = array();
-    while ($fila = mysqli_fetch_array($results)) {
-
+    $cont=0;
+    while ($fila = mysqli_fetch_assoc($results)) {
         $arrayResults[] = $fila;
     }
     return $arrayResults;

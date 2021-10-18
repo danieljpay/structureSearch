@@ -1,5 +1,6 @@
 <?php
     function printResults($results) {
+        //var_dump($results);
         if($results) {
             foreach($results as $coincidence) {
                 echo "<div class='results-card'>";

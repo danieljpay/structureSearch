@@ -3,10 +3,10 @@
         $camposArray = explode(",", $camposInput);
         $camposToSearch = [];
         for ($i=0; $i < count($camposArray); $i++) { 
-            $temp = explode(".", $camposArray[$i]);
-            array_push($camposToSearch, $temp[1]);
+            $nameTable = explode(".", $camposArray[$i]);
+            array_push($camposToSearch, $nameTable[1]);
         }
-        $tableToSearch = $temp[0];
+        $tableToSearch = $nameTable[0];
 
         for ($i=0; $i < count($camposToSearch); $i++) { 
             $query = "SELECT " . $camposInput . " FROM " . $tableToSearch . " WHERE ";
@@ -51,6 +51,7 @@
                         break;
                 }
             }
+            echo $query;
             $results = executeQuery($query);
             printResults($results);
         }

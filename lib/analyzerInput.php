@@ -8,7 +8,7 @@
         //Detección de campos
         $camposInput = lookCamposInput($words);
         $hasCamposInput = $camposInput ? true : false;
-        
+
         if($hasCamposInput) {
             $words = deleteCamposFromWords($words);
             structureQueryWithCampos($words, $camposInput);
