@@ -15,6 +15,7 @@ function queryFindTermsById($docsId){
 
 function queryFindFrequencyTermByDocId($term, $docId){
     //Implement
+    return 1; // implementar query
 }
 
 function getTermsByDocsQuery($docsTerms, $queryTerms){
