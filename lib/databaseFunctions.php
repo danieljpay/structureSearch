@@ -63,7 +63,7 @@ function getDocContent($documentID)
     $query = "SELECT posting.Document_Content FROM posting WHERE Document_ID = " . $documentID . ";";
     $content = executeQuery($query);
     if (!empty($content)) {
-        return $content[0]["Document_Content"];
+        return unpackResults($content,"Document_Content");
     } else {
         return "404 NOT FOUND :(";
     }
@@ -160,4 +160,54 @@ function downloadDocument($id_document)
     } else {
         echo "Documento no encontrado en DB";
     }
+}
+
+function getDocumentsWith ($keyword)
+{
+    $docsFound = array();
+    if (keywordExists($keyword)) {
+        $query = "SELECT keyword_post.Document_ID FROM keyword_post WHERE KeyWord = '" . $keyword . "';";
+        $docsFound = unpackResults(executeQuery($query),"Document_ID");
+    }
+    return $docsFound;
+}
+
+function unpackResults ($results, $criterion)
+{
+    $unpackedResults = array ();
+    foreach ($results as $result) {
+        $unpackedResults[] = $result[$criterion];
+    }
+
+    if (count($unpackedResults) == 1) {
+        return $unpackedResults[0];
+    }else {
+        return $unpackedResults;
+    }
+    
+}
+
+function genNewID ()
+{
+    $query = "SELECT MAX(posting.Document_ID) FROM posting;";
+    $lastID = unpackResults(executeQuery($query),"MAX(posting.Document_ID)");
+    return $lastID + 1;
+}
+
+function getAllDocs ()
+{
+    $query = "SELECT posting.Document_ID,posting.Document_Content FROM posting;";
+    $queryResults = executeQuery($query);
+    $IDs = array();
+    $Contents = array();
+
+    $IDs = unpackResults($queryResults,"Document_ID");
+    $Contents = unpackResults($queryResults,"Document_Content");
+
+    $allDocuments = array();
+    for ($i=0; $i < count($IDs); $i++) { 
+        $allDocuments[$IDs[$i]] = $Contents[$i];
+    }
+
+    return $allDocuments;
 }

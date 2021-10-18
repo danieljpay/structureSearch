@@ -7,15 +7,27 @@ while (!feof($file)) {
     $fileContent .= fgets($file);
 }
 
-//insertFile($fileContent);
-
+// LA FUNCION getDocContent DEVOLVERA EL CONTENIDO DEL DOCUMENTO CON EL ID PROPORCIONADO
 // echo getDocContent(4);
 
-//var_dump( newKeyword("Palabra prueba",3,5,"3,5,7,11"));
-//METODO PARA GENERAR ID
-newFile(3, $fileContent);
+
+// LA FUNCION genNewID DEVOLVERA EL ID DISPONIBLE PARA EL NUEVO DOCUMENTO
+// $newID = genNewID();
+// newFile($newID, $fileContent);
+
+// LA FUNCION getAllDocs DEVOLVERA UN ARRAY CON EL ID Y CONTENIDO DE TODOS LOS DOCUMENTOS ALMACENADOS
+// EL ARRAY TIENE LA ESTRUCTURA CLAVE(ID) => VALOR(CONTENIDO)
+// SE DEJA UN EJEMPLO DE COMO ACCEDER AL CONTENIDO DEL DOCUMENTO 3
+// $allDocs = getAllDocs ();
+// echo $allDocs[3];
+
+// LA FUNCION getDocumentsWith DEVOLVERA UN ARRAY CON EL ID DE LOS
+// DOCUMENTOS QUE CONTENGAN LA PALABRA PROPORCIONADA
+// var_dump(getDocumentsWith("palabra1"));
+
 //downloadDocument(1);
 //wnloadDocument(4);
+
 
 //------------------------------------- FUNCIONES QUE SIRVEN
 
