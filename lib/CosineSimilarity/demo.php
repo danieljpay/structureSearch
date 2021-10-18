@@ -16,12 +16,10 @@ foreach ($docsId as $docId) {
     $vectors[] = createDocVector($dictionary, $docId);
 }
 $vectors[] = createQueryToVector($dictionary, $queryKW);
-
 $vectorSize = sizeof($vectors);
 
 $cosineValue = array();
 for ($i = 0; $i < $vectorSize - 1; $i++) {
     $cosineValue[] = cosineSimilarity($vectors[$vectorSize - 1], $vectors[$i]);
 }
-$cosineValue[] = createQueryToVector($dictionary, $queryKW);
 var_dump($cosineValue);

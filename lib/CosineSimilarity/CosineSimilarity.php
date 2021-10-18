@@ -1,5 +1,4 @@
 <?php
-include("test.php");
 function cosineSimilarity($query, $document){
     $product = scalarProduct($query, $document);
     $moduleQuery = vectorModule($query);
@@ -8,15 +7,19 @@ function cosineSimilarity($query, $document){
 }
 
 function scalarProduct($query, $document){
-    $scalar = 1;//dummy value
-    //to-Do implementation
+    $scalar = 0;
+    for($i=1; $i<sizeof($query); $i++){
+        $scalar += ($query[$i]*$document[$i]);
+    }
     return $scalar;
 }
 
 function vectorModule($vector){
-    $scalar = 1;//dummy value
-    //to-Do implementation
-    return $scalar;
+    $module = 0;
+    for($i=1; $i<sizeof($vector); $i++){
+        $module += pow($vector[$i], 2);
+    }
+    return sqrt($module);
 }
 
 function termWeights($query, $documentList){
