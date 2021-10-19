@@ -2,7 +2,7 @@
     include("analyzerInput.php");
 
     if(isset( $_GET["inputSearch"] )) {
-        $input = $_GET["inputSearch"];
+        $input = strtoupper($_GET["inputSearch"]);
         $words = explode(" ", $input);
         
         analyzerInput($words);
