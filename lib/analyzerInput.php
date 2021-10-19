@@ -3,6 +3,7 @@
     include("printResults.php");
     include("structureQueryWithCampos.php");
     include("structureQueryWithoutCampos.php");
+    include("CosineSimilarity/start.php");
 
     function analyzerInput($words) {
         //Detección de campos
@@ -13,7 +14,7 @@
             $words = deleteCamposFromWords($words);
             structureQueryWithCampos($words, $camposInput);
         } else {
-            structureQueryWithoutCampos($words);
+            startCosineSimilarity(structureQueryWithoutCampos($words));
         }
     }
 
