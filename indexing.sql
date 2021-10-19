@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-10-2021 a las 23:08:14
--- Versión del servidor: 10.4.21-MariaDB
--- Versión de PHP: 8.0.10
+-- Tiempo de generación: 19-10-2021 a las 04:31:12
+-- Versión del servidor: 10.4.14-MariaDB
+-- Versión de PHP: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `dictionary` (
-  `Keyword` varchar(20) NOT NULL COMMENT 'La keyword',
+  `Keyword` varchar(70) NOT NULL COMMENT 'La keyword',
   `Keyword_Appearances` int(5) NOT NULL COMMENT 'Número de documentos en los que aparece la keyword'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Diccionario de documentos';
 
@@ -39,7 +39,7 @@ CREATE TABLE `dictionary` (
 --
 
 CREATE TABLE `keyword_post` (
-  `Keyword` varchar(50) NOT NULL COMMENT 'Una keyword',
+  `Keyword` varchar(70) NOT NULL COMMENT 'Una keyword',
   `Document_ID` int(5) NOT NULL COMMENT 'El ID de undocumento',
   `Frequency` int(5) NOT NULL COMMENT 'La frecuencia de la keyword en el documento',
   `Positions` varchar(1000) NOT NULL COMMENT 'Las posiciones de la keyword en el documento'
