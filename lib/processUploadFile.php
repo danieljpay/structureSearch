@@ -12,8 +12,8 @@ while (!feof($file)) {
 
 
 // LA FUNCION genNewID DEVOLVERA EL ID DISPONIBLE PARA EL NUEVO DOCUMENTO
-$newID = genNewID();
-newFile($newID, $fileContent);
+// $newID = genNewID();
+// newFile($newID, $fileContent);
 
 // LA FUNCION getAllDocs DEVOLVERA UN ARRAY CON EL ID Y CONTENIDO DE TODOS LOS DOCUMENTOS ALMACENADOS
 // EL ARRAY TIENE LA ESTRUCTURA CLAVE(ID) => VALOR(CONTENIDO)
