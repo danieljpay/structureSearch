@@ -68,9 +68,25 @@ function structureQueryWithoutCampos($words)
             $resultKW[] = $wk;
         }
     }
+
     $dto = array();
     $dto[] = $result;
-    $dto[] = $resultKW;
+    $dto[] = $resultKW;//detalles
+    $dto[] = frequencyQueryKW($resultKW, $words);
     return $dto;
     //printResults($result);
+}
+
+function frequencyQueryKW($kws, $query){
+    $frequency = array();
+    foreach($kws as $kw){
+        $count = 0;
+        foreach($query as $querykw){
+            if(strtoupper($querykw) == strtoupper($kw)){
+                $count++;
+            }
+        }
+        $frequency[] = $count;
+    }
+    return $frequency;
 }

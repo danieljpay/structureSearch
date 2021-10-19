@@ -1,9 +1,9 @@
 <?php
-function getDocsId(){
+function getDocsId($docs){
     $documents = array();
-    $documents[] = 1;//"the best Italian restaurant enjoy the best pasta"; 
-    $documents[] = 2;//"American restaurant enjoy the best hamburger";
-    $documents[] = 3;//"Korean restaurant enjoy the best bibimbap";
+    foreach($docs as $doc){
+        $documents[] = $doc['Document_ID'];
+    }
     return $documents;
 }
 

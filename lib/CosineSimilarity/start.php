@@ -4,18 +4,15 @@ include("DocumentToVector.php");
 include("CosineSimilarity.php");
 function startCosineSimilarity($dto)
 {
+    //dto[0] = la informacion de los documentos
+    //dto[1] = terminos de la query
+    //dto[2] = frecuencia de los terminos de la query
+    
     var_dump($dto);
-    printResults($dto[0]);
-}
+    //printResults($dto[0]);
 
-function  dummy(){
-    $query = "the best the best American restaurant";
-
-    //Supongamos que se descompone la query correctamente
-    $queryKW = array("the", "best", "the", "best", "American", "restaurant");
-
-    //Vamos a suponer que llamamos la consulta y que me devolvió los  id de los docs correctos. 
-    $docsId = getDocsId();
+    $queryKW = $dto[1];
+    $docsId = getDocsId($dto[0]);
     $docTermsList[] = queryFindTermsById($docsId);
     $dictionary = getTermsByDocsQuery($docTermsList, $queryKW);
     $idf = idf($dictionary, array(
