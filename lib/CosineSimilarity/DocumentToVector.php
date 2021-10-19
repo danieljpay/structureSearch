@@ -1,5 +1,5 @@
 <?php
-function createDocVector($dictionary, $docId)
+/* function createDocVector($dictionary, $docId)
 {
     //query para obtener terminos enviando id
     //Lo siguiente es puramente por casos de prueba en lo que se genera la implementación
@@ -66,4 +66,4 @@ function createQueryToVector($dictionary, $queryKW)
     //return $values;
     //return array($docId,0,1,1,1,1,0,0,0,1,1);
     return $values; //array($docId,0,1/6,1/6,1/6,1/6,0,0,0,1/6,1/6);
-}
+} */

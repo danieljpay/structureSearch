@@ -1,4 +1,5 @@
 <?php
+include("InvertedIndex/functions.php");
 function structureQueryWithoutCampos($words)
 {
     $queryWK = array();

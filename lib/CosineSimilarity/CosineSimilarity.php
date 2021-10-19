@@ -6,13 +6,6 @@ function cosineSimilarity($query, $document){
     return $product/($moduleQuery*$moduleDocument);
 }
 
-function cosineSimilarityRefine($query, $document){
-    $product = scalarProduct($query, $document);
-    $moduleQuery = vectorModule($query);
-    $moduleDocument = vectorModule($document);
-    return $product/($moduleQuery*$moduleDocument);
-}
-
 function scalarProduct($query, $document){
     $scalar = 0;
     for($i=1; $i<sizeof($query); $i++){
@@ -39,10 +32,10 @@ function idf($dictionary, $docsTerms){
                 $foundCount++;
             }
         }
-        echo "El termino " . $term . " aparecio: " . $foundCount . ".";
+        //echo "El termino " . $term . " aparecio: " . $foundCount . ".";
         if($foundCount != 0){
             $idf[] = log10(sizeof($docsTerms)/$foundCount);
-            echo "Se obtuvo " . log10(sizeof($docsTerms)/$foundCount) . "<br>";
+            //echo "Se obtuvo " . log10(sizeof($docsTerms)/$foundCount) . "<br>";
         }else{
             $idf[] = 0;
         }

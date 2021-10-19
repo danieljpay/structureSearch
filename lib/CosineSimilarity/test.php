@@ -2,14 +2,15 @@
 function getDocsId($docs){
     $documents = array();
     foreach($docs as $doc){
-        $documents[] = $doc['Document_ID'];
+        if(!(in_array($doc['Document_ID'], $documents))){
+            $documents[] = $doc['Document_ID'];
+        }
     }
     return $documents;
 }
 
 function queryFindTermsById($docsId){
-    //Implementacion de armar una query que devuelva un array de terminos de acuerdo a la lista de id's
-    $docTerms = array();
+    
     return $docTerms;
 }
 
