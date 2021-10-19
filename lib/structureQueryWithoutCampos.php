@@ -1,5 +1,6 @@
 <?php
     function structureQueryWithoutCampos($words) {
+        $docs = array();
         $categoriasBusqueda = ["Keyword", "Document_ID", "Frecuency","Positions"];
         $tableToSearch = "keyword_post";
         for ($i=0; $i < count($categoriasBusqueda); $i++) {
@@ -45,10 +46,16 @@
                         break;
                 }
             }
-
-            echo $query;
-            $results = executeQuery($query,$categoriasBusqueda);
-            printResults($results);
+            $arrayDocs[] = executeQuery($query,$categoriasBusqueda);
         }
+        $result = array();
+        foreach($arrayDocs as $docs){
+            foreach($docs as $doc){
+                if(!(in_array($doc, $result))){
+                    $result[] = $doc;
+                }
+            }
+        }
+        printResults($result);
     }
 ?>
