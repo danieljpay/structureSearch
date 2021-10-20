@@ -1,5 +1,4 @@
 <?php
-include("InvertedIndex/functions.php");
 function structureQueryWithoutCampos($words)
 {
     $queryWK = array();
@@ -42,6 +41,7 @@ function structureQueryWithoutCampos($words)
                         case 'PATRON':
                             //echo "encontré un patrón()";
                             $wordToSearch = substr(strstr($words[$j], '('), 1, -1);
+                            $queryWK[] = $wordToSearch;
                             $query .= $categoriasBusqueda[$i] . " LIKE '%" . $wordToSearch . "%'";
                             break;
                         default:
@@ -83,8 +83,12 @@ function frequencyQueryKW($kws, $query){
     foreach($kws as $kw){
         $count = 0;
         foreach($query as $querykw){
+            $remove = array("CADENA", "PATRON", "(", ")");
+            $querykw = str_replace($remove," ",$querykw);
+            $querykw = trim($querykw);
             if(strtoupper($querykw) == strtoupper($kw)){
                 $count++;
+            }else{
             }
         }
         $frequency[] = $count;

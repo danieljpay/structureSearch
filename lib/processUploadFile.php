@@ -25,7 +25,7 @@ newFile($newID, $fileContent);
 // DOCUMENTOS QUE CONTENGAN LA PALABRA PROPORCIONADA
 // var_dump(getDocumentsWith("palabra1"));
 
-//downloadDocument(1);
+downloadDocument(1, __DIR__ . "\\");
 //wnloadDocument(4);
 
 

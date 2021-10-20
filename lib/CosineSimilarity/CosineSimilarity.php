@@ -19,6 +19,9 @@ function vectorModule($vector){
     for($i=1; $i<sizeof($vector); $i++){
         $module += pow($vector[$i], 2);
     }
+    if($module == 0){
+        return 1;
+    }
     return sqrt($module);
 }
 

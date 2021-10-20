@@ -40,14 +40,21 @@ function startCosineSimilarity($dto)
         }
         $tf_idf[] = $objectData;
     }
-
     $vectorSize = sizeof($tf_idf);
-    $cosineValue = array();
+    $cosineValues = array();
     for ($i = 0; $i < $vectorSize; $i++) {
-        $cosineValue[] = cosineSimilarity($tf_idf[$vectorSize - 1], $tf_idf[$i]);
+        $cosineValues[] = cosineSimilarity($tf_idf[$vectorSize - 1], $tf_idf[$i]);
     }
-    echo "<br>";
-    var_dump($cosineValue);
+
+    $results = array();
+    foreach($cosineValues as $index => $value){
+        $dtoResult = array();
+        $dtoResult[] = $arrayDocs[$index][0];
+        $dtoResult[] = $value;
+        $results[] = $dtoResult;
+    }
+    $resultsSort =  burbuja($results);
+    printResults($resultsSort);
     //$idf = idf();
     //var_dump($vocabulary);
 
@@ -55,45 +62,21 @@ function startCosineSimilarity($dto)
     //printResults($dto[0]);
 }
 
-function dummy($dto)
+function burbuja($results)
 {
-    $queryKW = $dto[1];
-    $docsId = getDocsId($dto[0]);
-    $docTermsList[] = queryFindTermsById($docsId);
-    $dictionary = getTermsByDocsQuery($docTermsList, $queryKW);
-    $idf = idf($dictionary, array(
-        array("the", "best", "Italian", "restaurant", "enjoy", "pasta"),
-        array("American", "restaurant", "enjoy", "the", "best", "hamburger"),
-        array("Korean", "restaurant", "enjoy", "the", "best", "bibimbap"),
-        array("the", "best", "American", "restaurant")
-    )); //$docTermsList);
-
-    $vectors = array();
-    foreach ($docsId as $docId) {
-        $vectors[] = createDocVector($dictionary, $docId);
-    }
-    var_dump($vectors);
-    echo "<br>";
-    $vectors[] = createQueryToVector($dictionary, $queryKW);
-
-    $tf_idf = array();
-    foreach ($vectors as $vector) {
-        $objectData = array();
-        foreach ($idf as $index => $coefficient) {
-            $objectData[] =  $vector[$index + 1] * $coefficient;
+    $longitud = count($results);
+    for ($i = 0; $i < $longitud-1; $i++) {
+        for ($j = 0; $j < $longitud - 2; $j++) {
+            if ($results[$j][1] < $results[$j + 1][1]) {
+                $temporal = $results[$j];
+                $results[$j] = $results[$j + 1];
+                $results[$j + 1] = $temporal;
+            }
         }
-        $tf_idf[] = $objectData;
     }
-    //
-    echo "<br><br>";
-    var_dump($tf_idf);
-    echo "<br><br>";
-
-    $vectorSize = sizeof($tf_idf);
-    $cosineValue = array();
-    for ($i = 0; $i < $vectorSize; $i++) {
-        $cosineValue[] = cosineSimilarity($tf_idf[$vectorSize - 1], $tf_idf[$i]);
+    $array = array();
+    for ($i = 0; $i < sizeof($results)-1; $i++) {
+        $array[] = $results[$i];
     }
-    echo "<br>";
-    var_dump($cosineValue);
+    return $array;
 }
