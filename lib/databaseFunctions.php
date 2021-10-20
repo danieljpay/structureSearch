@@ -116,44 +116,41 @@ function newKeyword($keyword, $documentID, $frequency, $positions)
 
 function validationDocumentTxt($id_document)
 {
-    $fileName = "document_$id_document.txt";
     $dataFile = getDocContent($id_document);
-    $boolean = false;
     if ($dataFile != "404 NOT FOUND :(") {
-        $boolean = true;
+        return true;
     }
-    
-    return $boolean;
+    return false;
 }
 
-function createDocumentTxt($id_document)
+function createDocumentTxt($id_document, $path)
 {
     $fileName = "document_$id_document.txt";
     $dataFile = getDocContent($id_document);
     if ($dataFile !=  "404 NOT FOUND :(") {
-        file_put_contents("documents/" . $fileName, $dataFile);
+        file_put_contents($path . "documents/" . $fileName, $dataFile);
     }
 }
 
-function getFilesDocuments($id_document)
+function getFilesDocuments($id_document, $path)
 {
-    $files = scandir("documents/");
+    $files = scandir($path . "documents/");
     if (!in_array("document_$id_document.txt", $files)) {
-        createDocumentTxt($id_document);
+        createDocumentTxt($id_document, $path);
     }
 
     return $files;
 }
 
-function downloadDocument($id_document)
+function downloadDocument($id_document, $path)
 {
-    if (validationDocumentTxt($id_document)) {
-        getFilesDocuments($id_document); //En caso de que necesite crear documento.
-        $files = getFilesDocuments($id_document);
+    if (validationDocumentTxt($id_document, $path)) {
+        getFilesDocuments($id_document, $path); //En caso de que necesite crear documento.
+        $files = getFilesDocuments($id_document, $path);
         for ($i = 2; $i < count($files); $i++) {
             if ($files[$i] == "document_$id_document.txt") {
             ?>
-                <a download="<?php echo $files[$i] ?>" href="documents/<?php echo $files[$i] ?>"><?php echo $files[$i] . "<br>" ?></a>
+                <?php echo "Descargue su documento: " ?><a download="<?php echo $files[$i] ?>" href="<?php echo "../lib/" ?>documents/<?php echo $files[$i] ?>"><?php echo $files[$i] . "<br>" ?></a>
             <?php
             }
         }

@@ -3,17 +3,18 @@
     include("printResults.php");
     include("structureQueryWithCampos.php");
     include("structureQueryWithoutCampos.php");
-
+    include("CosineSimilarity/start.php");
+    include("InvertedIndex/functions.php");
+    
     function analyzerInput($words) {
         //Detección de campos
         $camposInput = lookCamposInput($words);
         $hasCamposInput = $camposInput ? true : false;
-
         if($hasCamposInput) {
             $words = deleteCamposFromWords($words);
-            structureQueryWithCampos($words, $camposInput);
+            startCosineSimilarity(structureQueryWithCampos($words, $camposInput));
         } else {
-            structureQueryWithoutCampos($words);
+            startCosineSimilarity(structureQueryWithoutCampos($words));
         }
     }
 

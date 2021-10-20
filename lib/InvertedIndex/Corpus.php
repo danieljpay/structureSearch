@@ -8,11 +8,12 @@ class Corpus
         $this->documents = $documents;
     }
 
-    public function getTerms(){
+    public function getTerms()
+    {
         $vocabulary = array();
-        foreach($this->documents as $document){
-            foreach($document->terms as $term){
-                if(!($this->isInVocabulary($vocabulary, $term))){
+        foreach ($this->documents as $document) {
+            foreach ($document->terms as $term) {
+                if (!($this->isInVocabulary($vocabulary, $term))) {
                     $vocabulary[] = $term;
                 }
             }
@@ -22,8 +23,8 @@ class Corpus
 
     public function isInVocabulary($vocabulary, $termDocument)
     {
-        foreach($vocabulary as $term){
-            if($term == $termDocument){
+        foreach ($vocabulary as $term) {
+            if ($term == $termDocument) {
                 return true;
             }
         }
