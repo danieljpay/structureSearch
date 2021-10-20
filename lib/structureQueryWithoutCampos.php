@@ -40,9 +40,21 @@ function structureQueryWithoutCampos($words)
                             break;
                         case 'PATRON':
                             //echo "encontré un patrón()";
-                            $wordToSearch = substr(strstr($words[$j], '('), 1, -1);
-                            $queryWK[] = $wordToSearch;
-                            $query .= $categoriasBusqueda[$i] . " LIKE '%" . $wordToSearch . "%'";
+                            if(srtpos($words[$j], ")")) {
+                                $wordToSearch = substr(strstr($words[$j], '('), 1, -1);
+                                $queryWK[] = $wordToSearch;
+                                $query .= $categoriasBusqueda[$i] . " LIKE '%" . $wordToSearch . "%'";
+                            } else {
+                                $wordToSearch = substr(strstr($words[$j], '('), 1); //elimina caracter "("
+                                while (!strpos($words[$j], ")")) {
+                                    $j++;
+                                    $wordToSearch .= " " . $words[$j];
+                                    $queryWK[] = $wordToSearch;
+                                }
+                                $wordToSearch = substr($wordToSearch, 0, -1); //elimina caracter ")"
+                                $queryWK[] = $wordToSearch;
+                                $query .= $categoriasBusqueda[$i] . " LIKE '%" . $wordToSearch . "%'";
+                            }
                             break;
                         default:
                             //echo "encontré una palabra";
