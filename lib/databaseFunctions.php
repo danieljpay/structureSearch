@@ -16,7 +16,7 @@ function executeQuery($query) {
     $queryResults = mysqli_query($connection, $query);
     echo "<br>";
     if ($queryResults) {
-        $arrayResults = readQueryResults($queryResults); //verificar resultados de arrayResults
+        $arrayResults = readQueryResults($queryResults);
     } else {
         $arrayResults = array();
     }
@@ -28,7 +28,7 @@ function executeQuery($query) {
 function readQueryResults($results) {
     $arrayResults = array();
     $cont=0;
-    while ($fila = mysqli_fetch_assoc($results)) { //checar que hace mysqli_fetch_assoc
+    while ($fila = mysqli_fetch_assoc($results)) {
         $arrayResults[] = $fila;
     }
     return $arrayResults;
