@@ -11,8 +11,7 @@ function structureQuerywithCampos($words, $camposInput) {
     $tableToSearch = $nameTable[0];
 
     for ($i = 0; $i < count($camposToSearch); $i++) {
-        // $query = "SELECT " . $camposInput . " FROM " . $tableToSearch . " WHERE ";
-        $query = "SELECT keyword_post.Document_ID FROM " . $tableToSearch . " WHERE ";
+        $query = "SELECT KEYWORD_POST.Document_ID, " . $camposInput . " FROM " . $tableToSearch . " WHERE ";
         for ($j = 0; $j < count($words); $j++) {
             switch ($words[$j]) {
                 case "AND":
@@ -73,6 +72,8 @@ function structureQuerywithCampos($words, $camposInput) {
                     break;
             }
         }
+        echo "<br/>";
+        var_dump($query);
         $arrayDocs[] = executeQuery($query, $camposToSearch);
         //$results = executeQuery($query);
         //printResults($results);
