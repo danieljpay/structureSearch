@@ -42,7 +42,6 @@ function structureQuerywithCampos($words, $camposInput) {
                                 $lastWord = str_replace(')', '', $words[$j]);
                                 $wordToSearch .= " " .$lastWord;
                                 $queryWK[] = $lastWord;
-                                
                                 $query .= $camposToSearch[$i] . " = '" . $wordToSearch . "'";
                             }
                             break;
@@ -78,8 +77,6 @@ function structureQuerywithCampos($words, $camposInput) {
         echo "<br/>";
         var_dump($query);
         $arrayDocs[] = executeQuery($query, $camposToSearch);
-        //$results = executeQuery($query);
-        //printResults($results);
         $result = array();
         foreach ($arrayDocs as $docs) { //filtro de documentos para que no se repitan
             foreach ($docs as $doc) {
@@ -120,3 +117,4 @@ function frequencyQueryKW2($kws, $query){
     }
     return $frequency;
 }
+?>
