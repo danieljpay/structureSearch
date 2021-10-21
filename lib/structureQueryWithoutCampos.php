@@ -1,12 +1,11 @@
 <?php
-function structureQueryWithoutCampos($words)
-{
+function structureQueryWithoutCampos($words) {
     $queryWK = array();
     $docs = array();
-    $categoriasBusqueda = ["Keyword", "Document_ID", "Frecuency", "Positions"];
+    $categoriasBusqueda = ["Keyword"];
     $tableToSearch = "keyword_post";
     for ($i = 0; $i < count($categoriasBusqueda); $i++) {
-        $query = "SELECT " . "keyword_post.Keyword, keyword_post.Document_ID, keyword_post.Frequency, keyword_post.Positions" . " FROM " . $tableToSearch . " WHERE ";
+        $query = "SELECT keyword_post.Document_ID FROM " . $tableToSearch . " WHERE ";
         for ($j = 0; $j < count($words); $j++) {
             switch ($words[$j]) {
                 case "AND":

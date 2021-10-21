@@ -1,6 +1,5 @@
 <?php
-function connectDB()
-{
+function connectDB() {
     $connection = mysqli_connect("127.0.0.1", "root", "", "indexing");
     if (!$connection) {
         die("Fail: " . mysqli_connect_error());
@@ -8,18 +7,16 @@ function connectDB()
     return $connection;
 }
 
-function closeConnectionBD($connection)
-{
+function closeConnectionBD($connection) {
     mysqli_close($connection);
 }
 
-function executeQuery($query)
-{
+function executeQuery($query) {
     $connection = connectDB();
     $queryResults = mysqli_query($connection, $query);
     echo "<br>";
     if ($queryResults) {
-        $arrayResults = readQueryResults($queryResults);
+        $arrayResults = readQueryResults($queryResults); //verificar resultados de arrayResults
     } else {
         $arrayResults = array();
     }
@@ -28,38 +25,33 @@ function executeQuery($query)
     return $arrayResults;
 }
 
-function readQueryResults($results)
-{
+function readQueryResults($results) {
     $arrayResults = array();
     $cont=0;
-    while ($fila = mysqli_fetch_assoc($results)) {
+    while ($fila = mysqli_fetch_assoc($results)) { //checar que hace mysqli_fetch_assoc
         $arrayResults[] = $fila;
     }
     return $arrayResults;
 }
 
-function updateDB($query)
-{
+function updateDB($query) {
     $connection = connectDB();
     $done = mysqli_query($connection, $query);
     closeConnectionBD($connection);
     return $done;
 }
 
-function insertFile($ID, $content)
-{
+function insertFile($ID, $content) {
     $query = "INSERT INTO posting (Document_ID,Document_Content) VALUES(" . $ID . ",'" . $content . "');";
     return updateDB($query);
 }
 
-function insertKeyword($keyword)
-{
+function insertKeyword($keyword) {
     $query = "INSERT INTO dictionary (Keyword,Keyword_Appearances) VALUES ('" . $keyword . "',1);";
     return updateDB($query);
 }
 
-function getDocContent($documentID)
-{
+function getDocContent($documentID) {
     $query = "SELECT posting.Document_Content FROM posting WHERE Document_ID = " . $documentID . ";";
     $content = executeQuery($query);
     if (!empty($content)) {
@@ -69,8 +61,7 @@ function getDocContent($documentID)
     }
 }
 
-function keywordExists($keyword)
-{
+function keywordExists($keyword) {
     $checkQuery = "SELECT dictionary.Keyword FROM dictionary WHERE KeyWord = '" . $keyword . "';";
 
     if (empty(executeQuery($checkQuery))) {
@@ -80,15 +71,13 @@ function keywordExists($keyword)
     }
 }
 
-function increaseAppearances($keyword)
-{
+function increaseAppearances($keyword) {
     $query = "UPDATE dictionary SET Keyword_Appearances = Keyword_Appearances + 1 WHERE Keyword = '" . $keyword . "';";
     return updateDB($query);
 }
 
 
-function uploadKeyword($keyword)
-{
+function uploadKeyword($keyword) {
     if (keywordExists($keyword)) {
         increaseAppearances($keyword);
     } else {
@@ -96,8 +85,7 @@ function uploadKeyword($keyword)
     }
 }
 
-function newKeyword($keyword, $documentID, $frequency, $positions)
-{
+function newKeyword($keyword, $documentID, $frequency, $positions) {
     $query = "INSERT INTO keyword_post (Keyword,Document_ID,Frequency,Positions) VALUES ('" .
         $keyword . "','" .
         $documentID . "','" .
@@ -114,8 +102,7 @@ function newKeyword($keyword, $documentID, $frequency, $positions)
     return $done;
 }
 
-function validationDocumentTxt($id_document)
-{
+function validationDocumentTxt($id_document) {
     $dataFile = getDocContent($id_document);
     if ($dataFile != "404 NOT FOUND :(") {
         return true;
@@ -123,8 +110,7 @@ function validationDocumentTxt($id_document)
     return false;
 }
 
-function createDocumentTxt($id_document, $path)
-{
+function createDocumentTxt($id_document, $path) {
     $fileName = "document_$id_document.txt";
     $dataFile = getDocContent($id_document);
     if ($dataFile !=  "404 NOT FOUND :(") {
@@ -132,18 +118,15 @@ function createDocumentTxt($id_document, $path)
     }
 }
 
-function getFilesDocuments($id_document, $path)
-{
+function getFilesDocuments($id_document, $path) {
     $files = scandir($path . "documents/");
     if (!in_array("document_$id_document.txt", $files)) {
         createDocumentTxt($id_document, $path);
     }
-
     return $files;
 }
 
-function downloadDocument($id_document, $path)
-{
+function downloadDocument($id_document, $path) {
     if (validationDocumentTxt($id_document, $path)) {
         getFilesDocuments($id_document, $path); //En caso de que necesite crear documento.
         $files = getFilesDocuments($id_document, $path);
@@ -159,8 +142,7 @@ function downloadDocument($id_document, $path)
     }
 }
 
-function getDocumentsWith ($keyword)
-{
+function getDocumentsWith ($keyword) {
     $docsFound = array();
     if (keywordExists($keyword)) {
         $query = "SELECT keyword_post.Document_ID FROM keyword_post WHERE KeyWord = '" . $keyword . "';";
@@ -169,8 +151,7 @@ function getDocumentsWith ($keyword)
     return $docsFound;
 }
 
-function unpackResults ($results, $criterion)
-{
+function unpackResults ($results, $criterion) {
     $unpackedResults = array ();
     foreach ($results as $result) {
         $unpackedResults[] = $result[$criterion];
@@ -181,18 +162,15 @@ function unpackResults ($results, $criterion)
     }else {
         return $unpackedResults;
     }
-    
 }
 
-function genNewID ()
-{
+function genNewID () {
     $query = "SELECT MAX(posting.Document_ID) FROM posting;";
     $lastID = unpackResults(executeQuery($query),"MAX(posting.Document_ID)");
     return $lastID + 1;
 }
 
-function getAllDocs ()
-{
+function getAllDocs () {
     $query = "SELECT posting.Document_ID,posting.Document_Content FROM posting;";
     $queryResults = executeQuery($query);
     $IDs = array();
