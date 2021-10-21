@@ -54,13 +54,14 @@ function structureQuerywithCampos($words, $camposInput) {
                                 $query .= $camposToSearch[$i] . " LIKE '%" . $wordToSearch . "%'";
                             } else {
                                 $wordToSearch = substr(strstr($words[$j], '('), 1); //elimina caracter "("
-                                while (!strpos($words[$j], ")")) {
-                                    $wordToSearch .= $words[$j] . " ";
+                                $j++;
+                                while(!strpos($words[$j], ")")) {
+                                    $wordToSearch .= " " . $words[$j];
                                     $queryWK[] = $words[$j];
                                     $j++;
                                 }
                                 $lastWord = str_replace(')', '', $words[$j]);
-                                $wordToSearch .= $lastWord;
+                                $wordToSearch .= " " .$lastWord;
                                 $queryWK[] = $lastWord;
                                 $query .= $camposToSearch[$i] . " LIKE '%" . $wordToSearch . "%'";
                             }
