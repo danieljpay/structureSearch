@@ -1,5 +1,7 @@
 <?php
-function structureQueryWithoutCampos($words) {
+function structureQueryWithoutCampos($words)
+{
+    $remove = array("CADENA", "PATRON", "(", ")");
     $queryWK = array();
     $docs = array();
     $categoriasBusqueda = ["Keyword"];
@@ -23,35 +25,36 @@ function structureQueryWithoutCampos($words) {
                             //echo "encontré una cadena()";
                             if (strpos($words[$j], ")")) {
                                 $wordToSearch = substr(strstr($words[$j], '('), 1, -1);
-                                $queryWK[] = $wordToSearch;
+                                $queryWK[] = $words[$j]; //CREO
                                 $query .= $categoriasBusqueda[$i] . " = '" . $wordToSearch . "'";
                             } else {
                                 $wordToSearch = substr(strstr($words[$j], '('), 1); //elimina caracter "("
+                                $queryWK[] = cleanKeyword($remove, $words[$j]);
                                 while (!strpos($words[$j], ")")) {
                                     $j++;
                                     $wordToSearch .= " " . $words[$j];
-                                    $queryWK[] = $wordToSearch;
+                                    $queryWK[] = cleanKeyword($remove, $words[$j]);
                                 }
                                 $wordToSearch = substr($wordToSearch, 0, -1); //elimina caracter ")"
-                                $queryWK[] = $wordToSearch;
+                                //$queryWK[] = $wordToSearch; Creo que no
                                 $query .= $categoriasBusqueda[$i] . " = '" . $wordToSearch . "'";
                             }
                             break;
                         case 'PATRON':
                             //echo "encontré un patrón()";
-                            if(srtpos($words[$j], ")")) {
+                            if (strpos($words[$j], ")")) {
                                 $wordToSearch = substr(strstr($words[$j], '('), 1, -1);
-                                $queryWK[] = $wordToSearch;
+                                $queryWK[] = $words[$j];;
                                 $query .= $categoriasBusqueda[$i] . " LIKE '%" . $wordToSearch . "%'";
                             } else {
                                 $wordToSearch = substr(strstr($words[$j], '('), 1); //elimina caracter "("
                                 while (!strpos($words[$j], ")")) {
                                     $j++;
                                     $wordToSearch .= " " . $words[$j];
-                                    $queryWK[] = $wordToSearch;
+                                    $queryWK[] = $words[$j]; //CREO
                                 }
                                 $wordToSearch = substr($wordToSearch, 0, -1); //elimina caracter ")"
-                                $queryWK[] = $wordToSearch;
+                                //$queryWK[] = $wordToSearch; Creo que no
                                 $query .= $categoriasBusqueda[$i] . " LIKE '%" . $wordToSearch . "%'";
                             }
                             break;
@@ -82,27 +85,37 @@ function structureQueryWithoutCampos($words) {
     }
 
     $dto = array();
+    var_dump($resultKW);
     $dto[] = $result;
-    $dto[] = $resultKW;//detalles
+    $dto[] = $resultKW; //detalles
     $dto[] = frequencyQueryKW($resultKW, $words);
+    echo "<br>";
+    var_dump($dto[2]);
     return $dto;
     //printResults($result);
 }
 
-function frequencyQueryKW($kws, $query){
+function frequencyQueryKW($kws, $query)
+{
+    $remove = array("CADENA", "PATRON", "(", ")");
     $frequency = array();
-    foreach($kws as $kw){
+
+    foreach ($kws as $kw) {
         $count = 0;
-        foreach($query as $querykw){
-            $remove = array("CADENA", "PATRON", "(", ")");
-            $querykw = str_replace($remove," ",$querykw);
-            $querykw = trim($querykw);
-            if(strtoupper($querykw) == strtoupper($kw)){
+        foreach ($query as $querykw) {
+            $querykw = cleanKeyword($remove, $querykw);
+            if (strtoupper($querykw) == strtoupper($kw)) {
                 $count++;
-            }else{
+            } else {
             }
         }
         $frequency[] = $count;
     }
     return $frequency;
+}
+
+function cleanKeyword($remove, $word)
+{
+    $replaced = str_replace($remove, " ", $word);
+    return trim($replaced);
 }
