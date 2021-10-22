@@ -67,6 +67,8 @@ function structureQueryWithoutCampos($words)
                     break;
             }
         }
+        echo "<br/>";
+        var_dump($query);
         $arrayDocs[] = executeQuery($query, $categoriasBusqueda);
     }
     $result = array();

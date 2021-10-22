@@ -33,13 +33,14 @@ function structureQuerywithCampos($words, $camposInput)
                                 $query .= $camposToSearch[$i] . " = '" . $wordToSearch . "'";
                             } else {
                                 $wordToSearch = substr(strstr($words[$j], '('), 1); //elimina caracter "("
-                                while (!strpos($words[$j], ")")) {
-                                    $wordToSearch .= $words[$j] . " ";
+                                $j++;
+                                while(!strpos($words[$j], ")")) {
+                                    $wordToSearch .= " " . $words[$j];
                                     $queryWK[] = $words[$j];
                                     $j++;
                                 }
                                 $lastWord = str_replace(')', '', $words[$j]);
-                                $wordToSearch .= $lastWord;
+                                $wordToSearch .= " " .$lastWord;
                                 $queryWK[] = $lastWord;
                                 $query .= $camposToSearch[$i] . " = '" . $wordToSearch . "'";
                             }
@@ -52,13 +53,14 @@ function structureQuerywithCampos($words, $camposInput)
                                 $query .= $camposToSearch[$i] . " LIKE '%" . $wordToSearch . "%'";
                             } else {
                                 $wordToSearch = substr(strstr($words[$j], '('), 1); //elimina caracter "("
-                                while (!strpos($words[$j], ")")) {
-                                    $wordToSearch .= $words[$j] . " ";
+                                $j++;
+                                while(!strpos($words[$j], ")")) {
+                                    $wordToSearch .= " " . $words[$j];
                                     $queryWK[] = $words[$j];
                                     $j++;
                                 }
                                 $lastWord = str_replace(')', '', $words[$j]);
-                                $wordToSearch .= $lastWord;
+                                $wordToSearch .= " " .$lastWord;
                                 $queryWK[] = $lastWord;
                                 $query .= $camposToSearch[$i] . " LIKE '%" . $wordToSearch . "%'";
                             }
@@ -73,14 +75,12 @@ function structureQuerywithCampos($words, $camposInput)
             }
         }
         $arrayDocs[] = executeQuery($query, $camposToSearch);
-        //$results = executeQuery($query);
-        //printResults($results);
-    }
-    $result = array();
-    foreach ($arrayDocs as $docs) { //filtro de documentos para que no se repitan
-        foreach ($docs as $doc) {
-            if (!(in_array($doc, $result))) {
-                $result[] = $doc;
+        $result = array();
+        foreach ($arrayDocs as $docs) { //filtro de documentos para que no se repitan
+            foreach ($docs as $doc) {
+                if (!(in_array($doc, $result))) {
+                    $result[] = $doc;
+                }
             }
         }
     }
@@ -115,3 +115,4 @@ function frequencyQueryKW2($kws, $query)
     }
     return $frequency;
 }
+?>
