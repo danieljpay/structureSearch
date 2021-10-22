@@ -1,5 +1,6 @@
 <?php
-function structureQuerywithCampos($words, $camposInput) {
+function structureQuerywithCampos($words, $camposInput)
+{
     $queryWK = array();
     $docs = array();
     $camposArray = explode(",", $camposInput);
@@ -9,7 +10,6 @@ function structureQuerywithCampos($words, $camposInput) {
         array_push($camposToSearch, $nameTable[1]);
     }
     $tableToSearch = $nameTable[0];
-
     for ($i = 0; $i < count($camposToSearch); $i++) {
         $query = "SELECT KEYWORD_POST.Document_ID, " . $camposInput . " FROM " . $tableToSearch . " WHERE ";
         for ($j = 0; $j < count($words); $j++) {
@@ -46,7 +46,7 @@ function structureQuerywithCampos($words, $camposInput) {
                             break;
                         case 'PATRON':
                             //echo "encontré un patrón()";
-                            if(strpos($words[$j], ")")) {
+                            if (strpos($words[$j], ")")) {
                                 $wordToSearch = substr(strstr($words[$j], '('), 1, -1);
                                 $queryWK[] = $wordToSearch;
                                 $query .= $camposToSearch[$i] . " LIKE '%" . $wordToSearch . "%'";
@@ -69,48 +69,46 @@ function structureQuerywithCampos($words, $camposInput) {
                             $queryWK[] = $words[$j];
                             break;
                     }
-                    break;
+                    //break;
             }
         }
-        echo "<br/>";
-        var_dump($query);
         $arrayDocs[] = executeQuery($query, $camposToSearch);
         //$results = executeQuery($query);
         //printResults($results);
-        $result = array();
-        foreach ($arrayDocs as $docs) { //filtro de documentos para que no se repitan
-            foreach ($docs as $doc) {
-                if (!(in_array($doc, $result))) {
-                    $result[] = $doc;
-                }
-            }
-        }
-        $resultKW = array();
-        foreach ($queryWK as $wk) { //filtro de palabras para que no se repitan
-            if (!(in_array($wk, $resultKW))) {
-                $resultKW[] = $wk;
-            }
-        }
-
-        $dto = array();
-        $dto[] = $result;
-        $dto[] = $resultKW; //detalles
-        $dto[] = frequencyQueryKW2($resultKW, $words);
-        return $dto;
     }
+    $result = array();
+    foreach ($arrayDocs as $docs) { //filtro de documentos para que no se repitan
+        foreach ($docs as $doc) {
+            if (!(in_array($doc, $result))) {
+                $result[] = $doc;
+            }
+        }
+    }
+    $resultKW = array();
+    foreach ($queryWK as $wk) { //filtro de palabras para que no se repitan
+        if (!(in_array($wk, $resultKW))) {
+            $resultKW[] = $wk;
+        }
+    }
+    $dto = array();
+    $dto[] = $result;
+    $dto[] = $resultKW; //detalles
+    $dto[] = frequencyQueryKW2($resultKW, $words);
+    return $dto;
 }
 
-function frequencyQueryKW2($kws, $query){
+function frequencyQueryKW2($kws, $query)
+{
     $frequency = array();
-    foreach($kws as $kw){
+    foreach ($kws as $kw) {
         $count = 0;
-        foreach($query as $querykw){
+        foreach ($query as $querykw) {
             $remove = array("CADENA", "PATRON", "(", ")");
-            $querykw = str_replace($remove," ",$querykw);
+            $querykw = str_replace($remove, " ", $querykw);
             $querykw = trim($querykw);
-            if(strtoupper($querykw) == strtoupper($kw)){
+            if (strtoupper($querykw) == strtoupper($kw)) {
                 $count++;
-            }else{
+            } else {
             }
         }
         $frequency[] = $count;

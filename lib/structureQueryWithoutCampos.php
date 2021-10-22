@@ -25,7 +25,7 @@ function structureQueryWithoutCampos($words)
                             //echo "encontré una cadena()";
                             if (strpos($words[$j], ")")) {
                                 $wordToSearch = substr(strstr($words[$j], '('), 1, -1);
-                                $queryWK[] = $words[$j]; //CREO
+                                $queryWK[] = cleanKeyword($remove, $words[$j]);
                                 $query .= $categoriasBusqueda[$i] . " = '" . $wordToSearch . "'";
                             } else {
                                 $wordToSearch = substr(strstr($words[$j], '('), 1); //elimina caracter "("
@@ -44,14 +44,14 @@ function structureQueryWithoutCampos($words)
                             //echo "encontré un patrón()";
                             if (strpos($words[$j], ")")) {
                                 $wordToSearch = substr(strstr($words[$j], '('), 1, -1);
-                                $queryWK[] = $words[$j];;
+                                $queryWK[] = cleanKeyword($remove, $words[$j]);
                                 $query .= $categoriasBusqueda[$i] . " LIKE '%" . $wordToSearch . "%'";
                             } else {
                                 $wordToSearch = substr(strstr($words[$j], '('), 1); //elimina caracter "("
                                 while (!strpos($words[$j], ")")) {
                                     $j++;
                                     $wordToSearch .= " " . $words[$j];
-                                    $queryWK[] = $words[$j]; //CREO
+                                    $queryWK[] = cleanKeyword($remove, $words[$j]); //CREO
                                 }
                                 $wordToSearch = substr($wordToSearch, 0, -1); //elimina caracter ")"
                                 //$queryWK[] = $wordToSearch; Creo que no
@@ -61,7 +61,7 @@ function structureQueryWithoutCampos($words)
                         default:
                             //echo "encontré una palabra";
                             $query .= $categoriasBusqueda[$i] . " LIKE '%" . $words[$j] . "%'";
-                            $queryWK[] = $words[$j];
+                            $queryWK[] = cleanKeyword($remove, $words[$j]);
                             break;
                     }
                     break;
@@ -85,12 +85,9 @@ function structureQueryWithoutCampos($words)
     }
 
     $dto = array();
-    var_dump($resultKW);
     $dto[] = $result;
     $dto[] = $resultKW; //detalles
     $dto[] = frequencyQueryKW($resultKW, $words);
-    echo "<br>";
-    var_dump($dto[2]);
     return $dto;
     //printResults($result);
 }
