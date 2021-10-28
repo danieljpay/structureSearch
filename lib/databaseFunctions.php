@@ -27,7 +27,6 @@ function executeQuery($query) {
 
 function readQueryResults($results) {
     $arrayResults = array();
-    $cont=0;
     while ($fila = mysqli_fetch_assoc($results)) {
         $arrayResults[] = $fila;
     }
@@ -46,11 +45,6 @@ function insertFile($content) {
     return updateDB($query);
 }
 
-function insertKeyword($keyword) {
-    $query = "INSERT INTO dictionary (Keyword,Keyword_Appearances) VALUES ('" . $keyword . "',1);";
-    return updateDB($query);
-}
-
 function getDocContent($documentID) {
     $query = "SELECT posting.Document_Content FROM posting WHERE Document_ID = " . $documentID . ";";
     $content = executeQuery($query);
@@ -59,47 +53,6 @@ function getDocContent($documentID) {
     } else {
         return "404 NOT FOUND :(";
     }
-}
-
-function keywordExists($keyword) {
-    $checkQuery = "SELECT dictionary.Keyword FROM dictionary WHERE KeyWord = '" . $keyword . "';";
-
-    if (empty(executeQuery($checkQuery))) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-function increaseAppearances($keyword) {
-    $query = "UPDATE dictionary SET Keyword_Appearances = Keyword_Appearances + 1 WHERE Keyword = '" . $keyword . "';";
-    return updateDB($query);
-}
-
-
-function uploadKeyword($keyword) {
-    if (keywordExists($keyword)) {
-        increaseAppearances($keyword);
-    } else {
-        insertKeyword($keyword);
-    }
-}
-
-function newKeyword($keyword, $documentID, $frequency, $positions) {
-    $query = "INSERT INTO keyword_post (Keyword,Document_ID,Frequency,Positions) VALUES ('" .
-        $keyword . "','" .
-        $documentID . "','" .
-        $frequency . "','" .
-        $positions .
-        "');";
-    //var_dump($query);
-    $done = updateDB($query);
-
-    if ($done) {
-        uploadKeyword($keyword);
-    }
-
-    return $done;
 }
 
 function validationDocumentTxt($id_document) {
@@ -142,15 +95,6 @@ function downloadDocument($id_document, $path) {
     }
 }
 
-function getDocumentsWith ($keyword) {
-    $docsFound = array();
-    if (keywordExists($keyword)) {
-        $query = "SELECT keyword_post.Document_ID FROM keyword_post WHERE KeyWord = '" . $keyword . "';";
-        $docsFound = unpackResults(executeQuery($query),"Document_ID");
-    }
-    return $docsFound;
-}
-
 function unpackResults ($results, $criterion) {
     $unpackedResults = array ();
     foreach ($results as $result) {
@@ -162,27 +106,4 @@ function unpackResults ($results, $criterion) {
     }else {
         return $unpackedResults;
     }
-}
-
-function genNewID () {
-    $query = "SELECT MAX(posting.Document_ID) FROM posting;";
-    $lastID = unpackResults(executeQuery($query),"MAX(posting.Document_ID)");
-    return $lastID + 1;
-}
-
-function getAllDocs () {
-    $query = "SELECT posting.Document_ID,posting.Document_Content FROM posting;";
-    $queryResults = executeQuery($query);
-    $IDs = array();
-    $Contents = array();
-
-    $IDs = unpackResults($queryResults,"Document_ID");
-    $Contents = unpackResults($queryResults,"Document_Content");
-
-    $allDocuments = array();
-    for ($i=0; $i < count($IDs); $i++) { 
-        $allDocuments[$IDs[$i]] = $Contents[$i];
-    }
-
-    return $allDocuments;
 }
