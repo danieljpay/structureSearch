@@ -6,4 +6,4 @@ while (!feof($file)) {
     $fileContent .= fgets($file);
 }
 
-insertFile($file);
+insertFile($fileContent);
